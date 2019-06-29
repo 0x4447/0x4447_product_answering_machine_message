@@ -1,65 +1,74 @@
-exports.handler = async (event) => {
+//
+//  This function will grab the raw transcript of what was said in the
+//  message from AWS Lex, and pass it over to AWS Connect as text for
+//  further processing by Lex.
+//
+exports.handler = (event) => {
 
-    //
-    //  1.  Set a default message so even if we get nothing back we have
-    //      a default mesage
-    //
-    let message = "No message left";
+    return new Promise(function(resolve, reject) {
 
-    //
-    //  2.  Check to see what did Lex hear from the user
-    //
-    if(event.inputTranscript)
-    {
-        message = event.inputTranscript;
-    }
-
-    //
-    //  3.  Create a variable that will hold the response
-    //
-    let res = {};
-
-    //
-    //  4.  This is ran from 'Lambda initialization and validation'
-    //
-    if(event.invocationSource === 'DialogCodeHook')
-    {
         //
-        //  Set the Delegate with our modified slot value
+        //  1.  Set a default message so even if we get nothing back we have
+        //      a default message.
         //
-        res = {
-            dialogAction: {
-                type: "Delegate",
-                slots: {
-                    message: message
+        let message = "No message left";
+
+        //
+        //  2.  Check to see what did Lex hear from the user.
+        //
+        if(event.inputTranscript)
+        {
+            message = event.inputTranscript;
+        }
+
+        //
+        //  3.  Create a variable that will hold the response.
+        //
+        let res = {};
+
+        //
+        //  4.  This is ran from 'Lambda initialization and validation'.
+        //
+        if(event.invocationSource === 'DialogCodeHook')
+        {
+            //
+            //  Set the Delegate with our modified slot value
+            //
+            res = {
+                dialogAction: {
+                    type: "Delegate",
+                    slots: {
+                        message: message
+                    }
                 }
-            }
-        };
-    }
+            };
+        }
 
-    //
-    //  This is ran from 'Fulfillment'
-    //
-    if(event.invocationSource === 'FulfillmentCodeHook')
-    {
         //
-        //  Close our intent
+        //  This is ran from 'Fulfillment'.
         //
-        res = {
-            dialogAction: {
-                type: "Close",
-                fulfillmentState: "Fulfilled",
-                message: {
-                    contentType: "PlainText",
-                    content: "Perfect."
+        if(event.invocationSource === 'FulfillmentCodeHook')
+        {
+            //
+            //  Close our intent.
+            //
+            res = {
+                dialogAction: {
+                    type: "Close",
+                    fulfillmentState: "Fulfilled",
+                    message: {
+                        contentType: "PlainText",
+                        content: "Perfect."
+                    }
                 }
-            }
-        };
-    }
+            };
+        }
 
-    //
-    //  ->  Stop lambda and send back the response
-    //
-    return res;
+        //
+        //  ->  Tell Lambda that we are done working.
+        //
+        return resolve(res);
+
+    });
 
 };
