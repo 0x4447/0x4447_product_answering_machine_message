@@ -7,7 +7,7 @@ exports.handler = (event) => {
 
     return new Promise(function(resolve, reject) {
 
-        console.log(event, null, 4);
+        console.log(JSON.stringify(event, null, 4));
 
         //
         //  1.  Set a default message so even if we get nothing back we have
