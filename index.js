@@ -1,13 +1,14 @@
 //
-//  This function will grab the raw transcript of what was said in the
-//  message from AWS Lex, and pass it over to AWS Connect as text for
-//  further processing by Lex.
+//  This function is used by Lex to process the intent, and in our case
+//  we don't process it, we pass it back to Lex as is, this way we can
+//  get the raw transcript of what Lex heard.
+//
+//  After this step Connect will get back the original transcript as is,
+//  so then another Lambda can send out an email.
 //
 exports.handler = (event) => {
 
     return new Promise(function(resolve, reject) {
-
-        console.log(JSON.stringify(event, null, 4));
 
         //
         //  1.  Set a default message so even if we get nothing back we have

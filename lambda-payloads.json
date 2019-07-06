@@ -1,4 +1,30 @@
 {
-	"inputTranscript": "Hello",
-	"invocationSource": "DialogCodeHook"
+    "messageVersion": "1.0",
+    "invocationSource": "FulfillmentCodeHook",
+    "userId": "66686d43-fdcc-4be8-b508-0dee2dc6ae46",
+    "sessionAttributes": {},
+    "requestAttributes": {
+        "x-amz-lex:accept-content-types": "PlainText,SSML"
+    },
+    "bot": {
+        "name": "Office",
+        "alias": "$LATEST",
+        "version": "$LATEST"
+    },
+    "outputDialogMode": "Text",
+    "currentIntent": {
+        "name": "GetMessage",
+        "slots": {
+            "message": "my name is david can you send a message for david"
+        },
+        "slotDetails": {
+            "message": {
+                "resolutions": [],
+                "originalValue": ""
+            }
+        },
+        "confirmationStatus": "None",
+        "sourceLexNLUIntentInterpretation": null
+    },
+    "inputTranscript": "my name is david can you send a message for david"
 }
